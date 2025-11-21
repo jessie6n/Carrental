@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+        <style></style>
+        <link href="#" rel="stylesheet"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body>
+    <h2>註冊新會員</h2>
+	<form id="registerForm" onsubmit="return false">
+    姓名：<input type="text" id="membername"/><BR/>
+    身分證字號：<input type="text" id="idnumber" pattern="^[A-Z][1-2][0-9]{8}$" title="請輸入正確身分證字號"/><BR/>
+    電話：<input type="text" id="phone" pattern="^09\d{8}$" title="請輸入正確手機號碼"/><BR/>
+    生日：<input type="date" id="birthday" /><BR/>
+    性別：<label><input type="radio" name="gender" value="男" />男</label>
+      	<label><input type="radio" name="gender" value="女" />女</label><BR/>
+    email：<input type="email" id="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="請輸入正確 Email"/><BR/>
+    地址:<input type="text" id="address" /><BR/>
+    密碼:<input type="password" id="registerpw" /><BR/>
+    密碼確認:<input type="password" id="checkpw" /><BR/>
+    <button id="registernew" type="button">確認註冊</button>
+	</form>
+
+            <script type="text/javascript">
+
+            </script>
+	<script src="js/member.js"></script>
+	<script src="js/redirect.js"></script>
+</body>
+</html>

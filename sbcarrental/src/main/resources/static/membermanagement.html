@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>MemberManagement</title>
+    <style></style>
+    <link href="#" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body>
+    <h2>會員資料管理</h2>
+	<form onsubmit="return false">
+		會員編號:<input type="text" id="searmemberid"/><BR/>
+    	姓名：<input type="text" id="searname"/><BR/>
+    	身分證字號：<input type="text" id="searidnumber"/><BR/>
+    	電話：<input type="text" id="searphone"/><BR/>
+    <button id="search" type="button" >查詢</button>
+	</form>
+	<BR/>
+	<table border="1" width="80%">
+		<thead>
+			<tr>
+				<td>會員編號</td>
+				<td>姓名</td>
+				<td>身分證字號</td>
+				<td>手機</td>
+				<td>生日</td>
+				<td>email</td>
+				<td>地址</td>
+				<td>註冊日期</td>
+			</tr>
+		</thead>
+		<tbody id="memTable">
+		</tbody>
+	</table>
+	<script src="js/member.js"></script>
+</body>
+</html>
