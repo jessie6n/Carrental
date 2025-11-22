@@ -10,31 +10,36 @@
 </head>
 <body>
     <h2>訂單資料管理</h2>
-	<!--<form onsubmit="return false">
-		會員編號:<input type="text" id="searmemberid"/><BR/>
-    	姓名：<input type="text" id="searname"/><BR/>
-    	身分證字號：<input type="text" id="searidnumber"/><BR/>
-    	電話：<input type="text" id="searphone"/><BR/>
-    <button id="search" type="button" >查詢</button>
+	<form onsubmit="return false">
+		會員編號:<input type="text" id="memberid_od"/><BR/>
+    	會員姓名：<input type="text" id="membername_od"/><BR/>
+    	身分證字號：<input type="text" id="idnumber_od"/><BR/>
+    	電話：<input type="text" id="phone_od"/><BR/>
+    	<label>取車據點:</label><select id="pickupsta_od"></select><BR/>
+    	取車日期：<input type="date" id="pickupdatestart_od"/> ~ <input type="date" id="pickupdateend_od"/><BR/>
+    	訂單狀態：<input type="text" id="odstatus_od"/><BR/>
+    <button id="searchorder" type="button" >查詢</button>
 	</form>
 	<BR/>
 	<table border="1" width="80%">
 		<thead>
 			<tr>
+				<td>訂單編號</td>
 				<td>會員編號</td>
-				<td>姓名</td>
-				<td>身分證字號</td>
-				<td>手機</td>
-				<td>生日</td>
-				<td>email</td>
-				<td>地址</td>
-				<td>註冊日期</td>
+				<td>會員姓名</td>
+				<td>取車日期</td>
+				<td>還車日期</td>
+				<td>訂單日期</td>
+				<td>取車據點</td>
+				<td>還車據點</td>
+				<td>訂單金額</td>
+				<td>訂單狀態</td>
 			</tr>
 		</thead>
-		<tbody id="memTable">
+		<tbody id="allorderTable">
 		</tbody>
 	</table>
-	-->
 	<script src="js/member.js"></script>
+	<script src="js/employee.js"></script>
 </body>
 </html>

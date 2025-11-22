@@ -1,0 +1,58 @@
+<!-- templates/fragments/header.html -->
+
+<th:block th:fragment="header">
+
+    <!-- 專用 Header CSS -->
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+
+    <header class="site-header">
+
+        <!-- LOGO（回首頁） -->
+        <a href="/" class="logo">GOTO租車</a>
+
+        <!-- Menu -->
+        <nav class="menu">
+            <a href="#">車款介紹</a>
+            <a href="#">服務據點</a>
+            <a href="/reserve">預約租車</a>
+            <a href="#">訂閱車</a>
+            <a href="#">附駕車</a>
+            <a href="/my-orders">查看我的訂單</a>
+            <a href="#">登入 / 註冊</a>
+        </nav>
+
+    </header>
+
+</th:block>
+<style>
+/* 讓 header 不會被頁面影響 */
+.site-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box; /* 重要！避免被其他頁面的 body 影響 */
+}
+
+.site-header .logo {
+    font-family: "微軟正黑體", sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+}
+
+.menu a {
+    margin-left: 25px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #333;
+}
+
+.menu a:hover {
+    color: #d52222;
+}
+</style>

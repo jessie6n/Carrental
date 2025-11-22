@@ -82,6 +82,7 @@ public class MemberController {
 		} else return ResponseEntity.noContent().build();
 	}
 	
+	//依條件查詢會員
 	@GetMapping("/searchmember")
 	public List<Member> searchMember(
 	        @RequestParam(required = false) String membername,

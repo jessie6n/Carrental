@@ -16,7 +16,7 @@ function loginresult(){
             // data.member 才是會員資料
             const member = data.member;
 
-            alert(member.name + " 登入成功");
+            alert(member.name + " 登入成功");	
 
             // 若要存會員資料以便其他頁面使用
 			sessionStorage.setItem("memberId", member.memberId);
@@ -40,6 +40,20 @@ function loginresult(){
         }
     });
 }
+
+/*
+function gologinout() {
+	     if (sessionStorage.getItem("jwtToken")) {
+	         // → 已登入 → 做登出
+	         sessionStorage.clear();
+	         alert("您已登出");
+	         location.href = "carrentalDemo.html";
+	     } else {
+	         // → 未登入 → 導向登入頁
+	         location.href = "login.html";
+	     }
+	 }
+*/
 
 //顯示XXX您好
 window.onload = function() {
@@ -249,7 +263,6 @@ function checkLoginStatusAsync() {
             url: "http://localhost:8080/validate",
             type: "POST",
             headers: { "Authorization": "Bearer " + token },
-            contentType: "application/json",
             success: function(res) {
                 resolve(res.valid === true);
             },
@@ -283,6 +296,7 @@ async function goMyOrder() {
     const valid = await checkLoginStatusAsync();
     if (valid) {
         window.location.href = "myorders.html";
+		showmyorder();
     } else {
         handleLogout();
     }
@@ -308,6 +322,52 @@ function goRegisterwindow(){
 	location.href="register.html";
 }
 
+function gologin(){
+	location.href='login.html'
+}
+
+//---------------------------------------訂單---------------------------------------//
+window.addEventListener("DOMContentLoaded", () => {
+    showmyorder(); // 這時候 #orderTable 已經存在
+});
+
+function showmyorder(){
+	const memberId = sessionStorage.getItem("memberId");
+	
+	$.ajax({
+		url:"http://localhost:8080/order/select",
+		type:"post",
+		data:{memberid: memberId},
+		dataType:"json",
+		success:(data) => {
+			fillorder(data)
+		},
+		   error:(error) => {
+		   alert("error : " + error)
+		}
+	})
+}
+
+function fillorder(data){
+	//alert(JSON.stringify(data, null, 2));
+			
+	let orderTable=$("#orderTable");
+	orderTable.empty();
+	data.forEach(od => {
+	let row =
+		`<tr>
+		<td>${od.orderNo}</td>
+		<td>${od.pickupDate}</td>
+		<td>${od.returnDate}</td>
+		<td>${od.createdAt}</td>
+		<td>${od.pickupLocation}</td>
+		<td>${od.returnLocation}</td>
+		<td>${od.status}</td>
+		</tr>`
+		orderTable.append(row);
+	});
+}
+
 function start(){
      $("#login").click(loginresult);
 	 $("#registernew").click(addmember);
@@ -318,6 +378,31 @@ function start(){
 	 $("#myorderbtn").click(goMyOrder);
 	 $("#updatebtn").click(goUpdatedata);
 	 $("#homepagebtn").click(goHomepage);
+	 $("#loginout").click(gologinout);
 }
 
 $(document).ready(start);
+
+$(document).ready(function () {
+
+    // 依照 token 自動切換按鈕文字
+    if (sessionStorage.getItem("jwtToken")) {
+        $("#loginout").text("會員登出");
+    } else {
+        $("#loginout").text("會員登入/註冊");
+    }
+
+    // 點擊事件
+    $("#loginout").click(function () {
+        if (sessionStorage.getItem("jwtToken")) {
+            // 目前登入 → 按登出
+            sessionStorage.clear();
+            alert("已成功登出");
+            location.href = "carrentalDemo.html"; // 返回首頁或你想跳的頁面
+        } else {
+            // 尚未登入 → 進登入頁
+            location.href = "login.html";
+        }
+    });
+
+});

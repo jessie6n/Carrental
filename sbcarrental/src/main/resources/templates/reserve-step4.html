@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: header"></div>
+<head>
+<meta charset="UTF-8">
+<title>STEP 4 - 訂單完成</title>
+
+<link th:href="@{/css/reserve-step2.css}" rel="stylesheet" />
+
+<style>
+body { background: #f5f5f5; }
+
+.container-dark {
+	width: 80%;
+	margin: 40px auto;
+	background: #11141A;
+	padding: 40px;
+	border-radius: 12px;
+	color: white;
+}
+
+.success-title {
+	font-size: 26px;
+	font-weight: bold;
+	color: #4CAF50;
+	text-align: center;
+	margin-bottom: 25px;
+}
+
+.order-box {
+	background: #1A1E24;
+	padding: 25px;
+	border: 1px solid #3A3F47;
+	border-radius: 10px;
+	margin-bottom: 30px;
+}
+
+.order-row { margin: 10px 0; }
+.label { color: #aaa; }
+.value { color: white; }
+
+.highlight {
+	font-size: 22px;
+	color: #FF5555;
+	font-weight: bold;
+	text-align: right;
+}
+
+.btn-area { text-align: center; margin-top: 40px; }
+.btn { padding: 12px 30px; border-radius: 6px; text-decoration: none; cursor: pointer; font-size: 16px; margin: 0 10px; }
+.btn-home { background: #666; color: white; }
+.btn-order { background: #d52222; color: white; }
+</style>
+</head>
+
+<body>
+
+<div class="container-dark">
+
+	<h2 class="success-title">✔ 訂單已成功送出！</h2>
+
+	<!-- 🔵 訂單資訊 -->
+	<div class="order-box">
+		<h3>訂單資訊</h3>
+		<hr style="border-color: #3A3F47;">
+
+		<div class="order-row">
+			<span class="label">訂單編號：</span>
+			<span class="value" th:text="${order.orderNo}"></span>
+		</div>
+
+		<div class="order-row">
+			<span class="label">取車據點：</span>
+			<span class="value" th:text="${order.pickupLocation}"></span>
+		</div>
+
+		<div class="order-row">
+			<span class="label">還車據點：</span>
+			<span class="value" th:text="${order.returnLocation}"></span>
+		</div>
+
+		<div class="order-row">
+			<span class="label">取車日期：</span>
+			<span class="value" th:text="${order.pickupDate}"></span>
+		</div>
+
+		<div class="order-row">
+			<span class="label">還車日期：</span>
+			<span class="value" th:text="${order.returnDate}"></span>
+		</div>
+
+		<div class="order-row">
+			<span class="label">取車時間：</span>
+			<span class="value" th:text="${order.pickupTime}"></span>
+		</div>
+
+		<div class="order-row">
+			<span class="label">還車時間：</span>
+			<span class="value" th:text="${order.returnTime}"></span>
+		</div>
+	</div>
+
+	<!-- 🔵 車輛資訊 -->
+	<div class="order-box">
+		<h3>車輛資訊</h3>
+		<hr style="border-color: #3A3F47;">
+
+		<div class="order-row">
+			<span class="label">車款名稱：</span>
+			<span class="value" th:text="${order.carName}"></span>
+		</div>
+
+		<div class="order-row">
+			<span class="label">每日租金：</span>
+			<span class="value" th:text="${order.carPrice} + ' 元'"></span>
+		</div>
+
+		<div class="order-row">
+			<span class="label">租期：</span>
+			<span class="value" th:text="${order.rentalDays} + ' 天'"></span>
+		</div>
+
+		<div class="order-row">
+			<span class="label">車款金額：</span>
+			<span class="value" th:text="${order.carPrice * order.rentalDays} + ' 元'"></span>
+		</div>
+
+		<div class="order-row">
+			<span class="label">行駛里程費：</span>
+			<span class="value">依實際里程計算</span>
+		</div>
+	</div>
+
+	<!-- 🔵 加購項目 -->
+	<div class="order-box">
+		<h3>加購項目</h3>
+		<hr style="border-color: #3A3F47;">
+
+		<div class="order-row">
+			<span class="label">安心保險：</span>
+			<span class="value" th:text="${order.insurance} ? '有（1200元）' : '無'"></span>
+		</div>
+
+		<div class="order-row">
+			<span class="label">兒童座椅：</span>
+			<span class="value" th:text="${order.childSeatQty} + ' 個（200元/個）'"></span>
+		</div>
+	</div>
+
+	<!-- 🔵 總金額 -->
+	<div class="order-box">
+		<h3>總計金額</h3>
+		<hr style="border-color: #3A3F47;">
+
+		<div class="highlight" th:text="'TWD ' + ${order.totalAmount}"></div>
+	</div>
+
+	<div class="btn-area">
+		<a href="/" class="btn btn-home">回首頁</a>
+		<a href="/my-orders" class="btn btn-order">查看我的訂單</a>
+	</div>
+
+</div>
+
+</body>
+</html>

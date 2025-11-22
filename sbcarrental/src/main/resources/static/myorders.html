@@ -9,13 +9,23 @@
 </head>
 <body>
 	<h2>我的訂單</h2>
-
-	<script>
-	window.onload = async function() {
-	    const valid = await checkLoginStatusAsync();
-	    if (!valid) handleLogout();
-	};
-	</script>
+	
+	<BR/>
+	<table border="1" width="80%">
+		<thead>
+			<tr>
+				<td>訂單編號</td>
+				<td>取車日期</td>
+				<td>還車日期</td>
+				<td>訂單日期</td>
+				<td>取車據點</td>
+				<td>還車據點</td>
+				<td>訂單狀態</td>
+			</tr>
+		</thead>
+		<tbody id="orderTable">
+		</tbody>
+	</table>
 	<script src="js/member.js"></script>
 </body>
 </html>
