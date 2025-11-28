@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>預約租車 - STEP 2</title>
+    <link rel="stylesheet" href="/css/reserve-step2.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+    <div class="step-bar">
+        <div class="step active"><span class="circle">1</span><span class="text">選擇車型</span></div>
+        <div class="step active"><span class="circle">2</span><span class="text">加購選項</span></div>
+    </div>
+
+    <div class="page-title">
+        <div class="blue-arrow">STEP 2 選擇車款 / 加購配備</div>
+    </div>
+
+    <form action="/reserve/step2/submit" method="post">
+        <div class="content-area">
+            <!-- 車款列表（橫向排列） -->
+<div class="car-list">
+
+    <!-- 單一車款 -->
+    <div class="car-card" th:each="c : ${cars}">
+        <input type="radio" name="carId" th:value="${c.id}" class="car-radio" style="display:none;" />
+        <img th:src="${c.imagePath}" class="car-img" />
+
+        <div class="car-name" th:text="${c.name}"></div>
+
+        <div class="car-info">
+            <p><b>人數：</b><span th:text="${c.seats}"></span> 人</p>
+            <p><b>車門：</b><span th:text="${c.doors}"></span> 門</p>
+            <p><b>行李：</b><span th:text="${c.luggage}"></span> 件</p>
+            <p><b>排氣量：</b><span th:text="${c.cc}"></span> cc</p>
+            <p><b>油品：</b><span th:text="${c.fuel}"></span></p>
+            <p><b>里程費：</b><span th:text="${c.mileageFee}"></span> 元/km</p>
+            <p><b>總金額：</b><span th:text="${c.price * rentalDays}"></span> 元</p>
+            <p style="color:gray;font-size:14px;">
+                (每日 <span th:text="${c.price}"></span> 元 × <span th:text="${rentalDays}"></span> 天)
+            </p>
+        </div>
+
+        <button type="button" class="select-btn">確定選擇</button>
+    </div>
+
+</div>
+
+            <div class="section-title">升級購買安心保險</div>
+            <div class="option-box">
+                <label class="checkbox-wrapper">
+                    <input type="checkbox" name="insurance" value="true" />
+                    <span class="checkmark"></span><span class="option-text">是</span>
+                </label>
+            </div>
+
+            <div class="section-title">請選擇加購配備</div>
+            <div class="add-item-box">
+                <img src="/images/childseat.png" class="child-seat-img" />
+
+                <div class="add-item-info">
+                    <div class="item-name">兒童安全座椅</div>
+                    <div class="item-price">TWD 100 / 日</div>
+
+                    <div class="qty-selector">
+                        <button type="button" class="minus">−</button>
+                        <input type="text" name="childSeatQty" value="0" readonly />
+                        <button type="button" class="plus">＋</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-btn-bar">
+                <a href="/reserve/step2/back" class="btn-gray">返回上個步驟</a>
+                <button type="submit" class="btn-red">繼續下個步驟</button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        const cards = document.querySelectorAll('.car-card');
+        cards.forEach(card => {
+            const btn = card.querySelector('.select-btn');
+            const radio = card.querySelector('.car-radio');
+
+            btn.addEventListener('click', () => {
+                cards.forEach(c => {
+                    c.classList.remove('selected');
+                    c.querySelector('.select-btn').classList.remove('selected');
+                    c.querySelector('.select-btn').innerText = '確定選擇';
+                    c.querySelector('.car-radio').checked = false;
+                });
+
+                card.classList.add('selected');
+                btn.classList.add('selected');
+                btn.innerText = '已選擇';
+                radio.checked = true;
+            });
+        });
+
+        const minusBtn = document.querySelector('.minus');
+        const plusBtn = document.querySelector('.plus');
+        const seatInput = document.querySelector('input[name="childSeatQty"]');
+
+        plusBtn.addEventListener('click', () => {
+            let qty = parseInt(seatInput.value);
+            if (qty < 7) seatInput.value = qty + 1;
+        });
+
+        minusBtn.addEventListener('click', () => {
+            let qty = parseInt(seatInput.value);
+            if (qty > 0) seatInput.value = qty - 1;
+        });
+    </script>
+
+    <script th:if="${errorMsg != null}">
+        alert("[[${errorMsg}]]");
+    </script>
+</body>
+</html>

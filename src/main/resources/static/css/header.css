@@ -1,0 +1,35 @@
+/* =============================
+   GOTO租車 — Header 共同樣式
+   ============================= */
+
+/* Header 主體 */
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Logo */
+.site-header .logo {
+    font-family: "微軟正黑體", sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none; /* 無底線 */
+}
+
+/* Menu */
+.site-header .menu a {
+    margin-left: 25px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #333;
+    transition: 0.2s;
+}
+
+.site-header .menu a:hover {
+    color: #d52222;  /* Hover 紅色 */
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>修改會員資料</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body>
+	<h2>會員資料變更</h2><br/>
+	<h3>會員基本資料</h3><br/>
+	<form id="registerForm" onsubmit="return false">
+	<table width="30%">
+	<tbody>
+		<tr><td>會員編號:</td><td><span id="showid"></span></td></tr>
+		<tr><td>會員姓名:</td><td><span id="showname"></span></td></tr>
+		<tr><td>身分證字號:</td><td><span id="showidnumber"></span></td></tr>
+		<tr><td>性別:</td><td><span id="showgender"></span></td></tr>
+		<tr><td>手機號碼:</td><td><span id="showphone"></span></td></tr>
+		<tr><td>生日:</td><td><span id="showbirthday"></td></tr>
+		<tr><td>email:</td><td><input id="updateemail"></td></tr>
+		<tr><td>地址:</td><td><input id="updateaddress"></td></tr>
+		<tr><td>註冊日期:</td><td><span id="showdate"></span></td></tr>
+		<tr><td><button id="submitupdate"">確認變更</button></td></tr>
+	</tbody>
+	</table>
+	</form>
+	<br/>
+	
+	<h3>會員密碼變更</h3><br/>
+	請輸入舊密碼<input id="originalpw" type="password"><br/>
+	請輸入新密碼<input id="newpw1" type="password"><br/>
+	確認新密碼<input id="newpw2" type="password"><br/>
+	<button id="pwupdate">密碼變更</button>
+	
+	<script>
+	window.onload = async function() {
+	    const valid = await checkLoginStatusAsync();
+	    if (!valid) handleLogout();
+	};
+	</script>
+	
+	<script>
+	document.getElementById("showid").textContent = sessionStorage.getItem("memberId");
+	document.getElementById("showname").textContent = sessionStorage.getItem("memberName");
+	document.getElementById("showidnumber").textContent = sessionStorage.getItem("memberIdNumber");
+	document.getElementById("showgender").textContent = sessionStorage.getItem("memberGender");
+	document.getElementById("showphone").textContent = sessionStorage.getItem("memberPhone");
+	document.getElementById("showbirthday").textContent = sessionStorage.getItem("memberBirthday");
+	document.getElementById("updateemail").value = sessionStorage.getItem("memberEmail");
+	document.getElementById("updateaddress").value = sessionStorage.getItem("memberAddress");
+	document.getElementById("showdate").textContent = sessionStorage.getItem("memberRegisterDate");
+	
+	// 取得 DOM 元素
+	const spanIdNumEl = document.getElementById("showidnumber");
+	const spanPhoneEl = document.getElementById("showphone");
+
+	// 取得文字
+	const idNumText = spanIdNumEl.textContent;
+	const phoneText = spanPhoneEl.textContent;
+
+	// 遮蔽中間部分
+	const maskedIdNum = idNumText.slice(0, 4) + "***" + idNumText.slice(-3);
+	const maskedPhone = phoneText.slice(0, 4) + "***" + phoneText.slice(-3);
+
+	// 更新 span 內容
+	spanIdNumEl.textContent = maskedIdNum;
+	spanPhoneEl.textContent = maskedPhone;
+	
+	</script>
+	<script src="js/member.js"></script>
+	
+</body>
+</html>

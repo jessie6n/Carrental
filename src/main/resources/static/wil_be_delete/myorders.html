@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>我的訂單</title>
+        <meta charset="UTF-8">
+        <style></style>
+        <link href="#" rel="stylesheet"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body>
+	<h2>我的訂單</h2>
+
+	<script>
+	window.onload = async function() {
+	    const valid = await checkLoginStatusAsync();
+	    if (!valid) handleLogout();
+	};
+	</script>
+	<script src="js/member.js"></script>
+</body>
+</html>

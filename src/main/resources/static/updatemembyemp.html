@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>會員資料修改 | Gjun Rent</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <style>
+        body {
+            padding-top: 70px;
+        }
+        .masked {
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="employee.html">Gjun Rent - 員工系統</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <button class="btn btn-outline-danger btn-sm" onclick="emphandleLogout()">登出</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>會員資料變更</h2>
+            <button class="btn btn-secondary btn-back float-right" onclick="window.location.href='employee.html'">← 返回首頁</button>
+        </div>
+
+        <!-- 會員基本資料 -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">會員基本資料</h5>
+            </div>
+            <div class="card-body">
+                <form id="registerForm" class="row g-3" onsubmit="return false">
+                    <div class="col-md-6">
+                        <label class="form-label">會員編號</label>
+                        <p class="form-control-plaintext" id="showid_emp"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">會員姓名</label>
+                        <p class="form-control-plaintext" id="showname_emp"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">身分證字號</label>
+                        <p class="form-control-plaintext masked" id="showidnumber_emp"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">性別</label>
+                        <p class="form-control-plaintext" id="showgender_emp"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">手機號碼</label>
+                        <p class="form-control-plaintext" id="showphone_emp"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">生日</label>
+                        <p class="form-control-plaintext" id="showbirthday_emp"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="updateemail_emp">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">地址</label>
+                        <input type="text" class="form-control" id="updateaddress_emp">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">註冊日期</label>
+                        <p class="form-control-plaintext" id="showdate_emp"></p>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" onclick="updatememberbyemp()">確認變更</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="js/member.js"></script>
+    <script src="js/employee.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>我的訂單</title>
+
+    <style>
+        body { background: #f5f5f5; }
+
+        .container {
+            width: 80%;
+            margin: 40px auto;
+        }
+
+        .order-card {
+            background: #1A1E24;
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #3A3F47;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .order-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #FCCD4A;
+        }
+
+        .order-row { margin: 6px 0; }
+        .label { color: #aaa; }
+        .value { color: white; }
+
+        /* 取消訂單按鈕 */
+        .cancel-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background: #d52222;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 查看詳細按鈕（放在取消訂單下方） */
+        .detail-btn {
+            position: absolute;
+            right: 20px;
+            top: 60px; /* 往下移 */
+            background: #4a89ff;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+    <h2>我的訂單</h2>
+
+    <p th:if="${orders.size() == 0}">目前尚無任何訂單。</p>
+
+    <!-- 訂單列表 -->
+    <div th:each="o : ${orders}" class="order-card">
+
+        <div class="order-title" th:text="'訂單編號：' + ${o.orderNo}"></div>
+
+        <div class="order-row">
+            <span class="label">取車據點：</span>
+            <span class="value" th:text="${o.pickupLocation}"></span>
+        </div>
+
+        <div class="order-row">
+            <span class="label">還車據點：</span>
+            <span class="value" th:text="${o.returnLocation}"></span>
+        </div>
+
+        <div class="order-row">
+            <span class="label">取車日期：</span>
+            <span class="value" th:text="${o.pickupDate}"></span>
+        </div>
+
+        <div class="order-row">
+            <span class="label">還車日期：</span>
+            <span class="value" th:text="${o.returnDate}"></span>
+        </div>
+
+        <div class="order-row">
+            <span class="label">車款：</span>
+            <span class="value" th:text="${o.carName}"></span>
+        </div>
+
+        <div class="order-row">
+            <span class="label">總金額：</span>
+            <span class="value" th:text="'TWD ' + ${o.totalAmount}"></span>
+        </div>
+
+        <hr style="border-color: #3A3F47; margin: 12px 0;">
+
+        <div class="order-row">
+            <span class="label">狀態：</span>
+            <span class="value" th:text="${o.status}"></span>
+        </div>
+
+        <!-- ⭐ 取消訂單按鈕 -->
+        <a th:if="${o.status == '預約中'}"
+           href="javascript:void(0)"
+           th:attr="data-url=@{'/order/cancel/' + ${o.id}}"
+           class="cancel-btn"
+           onclick="confirmCancel(this)">
+            取消訂單
+        </a>
+
+        <!-- ⭐ 查看詳細資訊按鈕（固定顯示） -->
+        <a th:href="@{'/order/' + ${o.id}}" class="detail-btn">
+            查看詳細
+        </a>
+
+    </div>
+</div>
+
+<script>
+    function confirmCancel(el) {
+        let url = el.getAttribute("data-url");
+
+        if (confirm("確定要取消這筆訂單嗎？取消後無法恢復。")) {
+            window.location.href = url;
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>預約租車 - GOTO租車</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
+	<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- 日期 Range Picker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <style>
+        body {
+            background: #f4f5f7;
+            font-family: "微軟正黑體", sans-serif;
+        }
+
+        /* 主內容框 */
+        .reserve-box {
+            width: 60%;
+            margin: 10px auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            padding-bottom: 50px;
+        }
+
+        /* 上方紅色 Banner */
+        .banner {
+            width: 100%;
+            height: 60px;
+            background: #d52222;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 35px 60px;
+        }
+
+        .form-group {
+            width: 30%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 18px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .submit-btn {
+            padding: 18px 60px;
+            font-size: 22px;
+            font-weight: bold;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background: #333;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="reserve-box">
+
+    <div class="banner">預約車輛</div>
+
+    <form id="reserveForm" th:action="@{/reserve/step1}" method="post">
+
+        <!-- 第一排 -->
+        <div class="form-row">
+
+            <!-- ⭐取車據點 -->
+            <div class="form-group">
+                <label for="pickupLocation">取車據點</label>
+                <select id="pickupLocation" name="pickupLocation">
+                    <option value="">請選擇取車據點</option>
+
+                    <option th:each="b : ${branches}"
+                            th:value="${b.nameZh}"
+                            th:text="${b.nameZh}"
+                            th:selected="${pickupLocation == b.nameZh}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- 日期範圍 -->
+            <div class="form-group">
+                <label for="dateRange">取車 / 還車日期</label>
+                <input type="text" id="dateRange" name="dateRange" th:value="${dateRange}" readonly>
+            </div>
+
+            <!-- 取車時間 -->
+            <div class="form-group">
+                <label for="pickupTime">取車時間</label>
+                <select id="pickupTime" name="pickupTime">
+                    <option value="">請選擇時間</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 第二排 -->
+        <div class="form-row">
+
+            <!-- ⭐還車據點 -->
+            <div class="form-group">
+                <label for="returnLocation">還車據點</label>
+                <select id="returnLocation" name="returnLocation">
+                    <option value="">請選擇還車據點</option>
+
+                    <option th:each="b : ${branches}"
+                            th:value="${b.nameZh}"
+                            th:text="${b.nameZh}"
+                            th:selected="${returnLocation == b.nameZh}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- 還車時間 -->
+            <div class="form-group">
+                <label for="returnTime">還車時間</label>
+                <select id="returnTime" name="returnTime">
+                    <option value="">請選擇時間</option>
+                </select>
+            </div>
+
+            <!-- 車款 -->
+            <div class="form-group">
+                <label for="carType">車款</label>
+                <select id="carType" name="carType">
+                    <option th:selected="${carType == '五人座'}">五人座</option>
+                    <option th:selected="${carType == '七九人座'}">七九人座</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div style="text-align:center; margin-top: 20px;">
+            <button type="submit" class="submit-btn">預約租車</button>
+        </div>
+
+    </form>
+</div>
+
+<!-- Script 區 -->
+<script th:inline="javascript">
+
+    var pickupTimeFromServer = /*[[${pickupTime}]]*/ null;
+    var returnTimeFromServer = /*[[${returnTime}]]*/ null;
+    var dateRangeFromServer  = /*[[${dateRange}]]*/ null;
+
+    // ⭐時間下拉建立器
+    function buildTimeOptions(selector) {
+        var $select = $(selector);
+        $select.empty();
+        $select.append('<option value="">請選擇時間</option>');
+
+        for (var h = 0; h <= 23; h++) {
+            var hour = h.toString().padStart(2, '0');
+            $select.append('<option value="' + hour + ':00">' + hour + ':00</option>');
+            $select.append('<option value="' + hour + ':30">' + hour + ':30</option>');
+        }
+    }
+
+    $(function () {
+
+        buildTimeOptions("#pickupTime");
+        buildTimeOptions("#returnTime");
+
+        if (pickupTimeFromServer) $("#pickupTime").val(pickupTimeFromServer);
+        if (returnTimeFromServer) $("#returnTime").val(returnTimeFromServer);
+        if (dateRangeFromServer) $("#dateRange").val(dateRangeFromServer);
+
+        // ⭐日期選擇器
+        $('#dateRange').daterangepicker({
+            autoApply: true,
+            locale: { format: 'YYYY-MM-DD' },
+            minDate: moment().add(1, "days")
+        }, function(start, end) {
+            let diff = end.diff(start, 'days');
+            if (diff < 1) {
+                alert("還車日期至少為取車後一天");
+                $('#dateRange').data('daterangepicker')
+                    .setEndDate(start.clone().add(1, 'days'));
+            }
+        });
+    });
+
+    // ⭐表單送出防呆
+    document.getElementById("reserveForm").addEventListener("submit", function(event) {
+
+    	 let pickupLocation = document.getElementById("pickupLocation").value.trim();
+    	    let returnLocation = document.getElementById("returnLocation").value.trim();
+    	    let pickupTime = document.getElementById("pickupTime").value.trim();
+    	    let returnTime = document.getElementById("returnTime").value.trim();
+    	    let dateRange = document.getElementById("dateRange").value.trim();
+
+    // 1️⃣ 取車據點
+    if (!pickupLocation) {
+        Swal.fire({
+            icon: "warning",
+            title: "尚有資料未選擇",
+            text: "請選擇取車據點！"
+        });
+        event.preventDefault();
+        return false;
+    }
+
+    // 2️⃣ 還車據點
+    if (!returnLocation) {
+        Swal.fire({
+            icon: "warning",
+            title: "尚有資料未選擇",
+            text: "請選擇還車據點！"
+        });
+        event.preventDefault();
+        return false;
+    }
+
+    // 3️⃣ 取車時間
+    if (!pickupTime) {
+        Swal.fire({
+            icon: "warning",
+            title: "尚有資料未選擇",
+            text: "請選擇取車時間！"
+        });
+        event.preventDefault();
+        return false;
+    }
+
+    // 4️⃣ 還車時間
+    if (!returnTime) {
+        Swal.fire({
+            icon: "warning",
+            title: "尚有資料未選擇",
+            text: "請選擇還車時間！"
+        });
+        event.preventDefault();
+        return false;
+    }
+
+    // 5️⃣ 日期範圍檢查
+    if (!dateRange || dateRange.indexOf(" - ") === -1) {
+        Swal.fire({
+            icon: "warning",
+            title: "尚有資料未選擇",
+            text: "請選擇取車/還車日期！"
+        });
+        event.preventDefault();
+        return false;
+    }
+
+    // 6️⃣ 取還車日期是否至少差一天
+    let parts = dateRange.split(" - ");
+    let start = new Date(parts[0]);
+    let end = new Date(parts[1]);
+
+    let diffDays = (end - start) / (1000 * 60 * 60 * 24);
+
+    if (diffDays < 1) {
+        Swal.fire({
+            icon: "error",
+            title: "日期錯誤",
+            text: "還車日期至少為取車後一天。"
+        });
+        event.preventDefault();
+        return false;
+    }
+
+    return true;
+});
+
+
+
+</script>
+    <script src="js/member.js"></script>
+</body>
+</html>

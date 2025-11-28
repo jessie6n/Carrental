@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員登入 | GOTO Rent</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    
+    <style>
+        body { padding-top: 70px; background-color: #f4f7f9; }
+        /* 登入卡片樣式 */
+        .login-card {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .form-control { margin-bottom: 15px; height: 45px; }
+        .btn-login { width: 100%; height: 45px; font-weight: bold; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Gjun Rent</a> <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">首頁</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/reserve">預約租車</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="login-card">
+            <h3 class="text-center mb-4 fw-bold text-primary">會員登入</h3>
+            <form onsubmit="return false">
+                <div class="mb-3">
+                    <label class="form-label text-muted">帳號 (Email / 身分證字號)</label>
+                    <input type="text" id="username" class="form-control" placeholder="請輸入帳號" required>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-muted">密碼</label>
+                    <input type="password" id="password" class="form-control" placeholder="請輸入密碼" required>
+                </div>
+                
+                <button id="login" class="btn btn-primary btn-login">立即登入</button>
+                
+                <div class="d-flex justify-content-between mt-3 small">
+                    <a href="#" class="text-decoration-none text-muted">忘記密碼?</a>
+                    <a href="register.html" class="text-decoration-none fw-bold">註冊新會員</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/member.js"></script>
+    
+    <script>
+        // 攔截原本 member.js 的行為，我們可以在這裡做一些 UI 優化
+        // 但因為 member.js 綁定了 #login click 事件，我們直接使用 member.js 的邏輯即可
+        // 唯一要注意的是 member.js 成功後是導向 "carrentalDemo.html"，
+        // 我們需要在 member.js 中將其修改為 "/" (首頁) 
+        // 或者在這裡覆寫 loginresult 函數 (如果不方便改 JS 檔的話)
+    </script>
+</body>
+</html>

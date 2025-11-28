@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>STEP 3 - 訂單確認</title>
+    <link th:href="@{/css/reserve-step2.css}" rel="stylesheet" />
+</head>
+
+<body>
+
+
+<style>
+body { background: #f5f5f5; }
+.container-dark {
+    width: 80%; margin: 40px auto; background: #11141A;
+    padding: 40px; border-radius: 12px; color: white;
+}
+.section-title { font-size: 22px; font-weight: bold; margin-bottom: 20px; }
+.card {
+    border: 1px solid #3A3F47; padding: 25px; border-radius: 10px;
+    background: #1A1E24; margin-bottom: 30px;
+}
+.flex { display: flex; justify-content: space-between; gap: 20px; }
+.car-img { width: 260px; border-radius: 8px; }
+.info-table td { padding: 6px 0; }
+.price { font-size: 20px; font-weight: bold; text-align: right; color: #FCCD4A; }
+.total-price { font-size: 22px; font-weight: bold; text-align: right; color: #FF5555; }
+hr { border: 0; border-top: 1px solid #3A3F47; margin: 12px 0; }
+</style>
+
+
+<!-- ========================= 主內容 ========================= -->
+<div class="container-dark">
+
+    <h2 class="section-title">訂單摘要</h2>
+
+    <div class="flex">
+
+        <!-- ========== 左邊：內容明細 ========== -->
+        <div class="card" style="flex: 1">
+            <h3>內容明細</h3>
+            <hr>
+
+            <img th:src="@{${selectedCar.imagePath}}" class="car-img">
+
+            <table class="info-table">
+                <tr><td>預約車型：</td><td th:text="${selectedCar.name}"></td></tr>
+                <tr><td>取車據點：</td><td th:text="${pickupLocation}"></td></tr>
+                <tr><td>還車據點：</td><td th:text="${returnLocation}"></td></tr>
+                <tr><td>取車日期：</td><td th:text="${pickupDate}"></td></tr>
+                <tr><td>還車日期：</td><td th:text="${returnDate}"></td></tr>
+                <tr><td>取車時間：</td><td th:text="${pickupTime}"></td></tr>
+                <tr><td>還車時間：</td><td th:text="${returnTime}"></td></tr>
+
+                <tr>
+                    <td>里程費：</td>
+                    <td th:text="'$' + ${selectedCar.mileageFee} + ' / km'"></td>
+                </tr>
+
+                <tr><td colspan="2"><hr></td></tr>
+
+                <tr>
+                    <td><strong>小計：</strong></td>
+                    <td class="price" th:text="${selectedCar.price * rentalDays}"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ========== 右邊：加購費用 ========== -->
+        <div class="card" style="flex: 1">
+            <h3>附加費用</h3>
+            <hr>
+
+            <table class="info-table">
+                <tr><td>兒童安全座椅：</td><td th:text="${childSeatQty * 200}"></td></tr>
+                <tr><td>安心保險：</td><td th:text="${insurance} ? 1200 : 0"></td></tr>
+
+                <tr><td colspan="2"><hr></td></tr>
+
+                <tr>
+                    <td><strong>小計：</strong></td>
+                    <td class="price"
+                        th:text="${(childSeatQty * 200) + (insurance ? 1200 : 0)}">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+
+    <!-- ========== 金額總計 ========== -->
+    <div class="card">
+        <h3>金額計算</h3>
+        <hr>
+
+        <table class="info-table" style="width: 100%">
+            <tr><td><strong>車款小計：</strong></td>
+                <td style="text-align:right" th:text="${selectedCar.price * rentalDays}"></td></tr>
+
+            <tr><td><strong>加購小計：</strong></td>
+                <td style="text-align:right"
+                    th:text="${(childSeatQty * 200) + (insurance ? 1200 : 0)}"></td></tr>
+
+            <tr><td colspan="2"><hr></td></tr>
+
+            <tr><td><strong>總計金額：</strong></td>
+                <td class="total-price" th:text="'TWD ' + ${totalAmount}"></td></tr>
+        </table>
+    </div>
+
+</div>
+
+
+<!-- ======================== Button 區 ======================== -->
+<div style="text-align:center; margin-top: 30px; display:flex; justify-content:center; gap:20px;">
+
+    <a href="/reserve-step2"
+       style="display:flex; justify-content:center; align-items:center;
+              width:180px; height:50px;
+              background:#555; color:white; font-size:16px;
+              border-radius:6px; text-decoration:none;">
+        返回上個步驟
+    </a>
+
+    <form action="/reserve/step3/submit" method="post" style="display:flex;">
+
+        <!-- 必須提交 carId -->
+        <input type="hidden" name="carId" th:value="${selectedCar.id}" />
+
+        <button type="submit"
+                style="width:180px; height:50px;
+                       background:#d52222; color:white; font-size:16px;
+                       border-radius:6px; border:none; cursor:pointer;">
+            送出訂單
+        </button>
+
+    </form>
+
+</div>
+
+
+
+
+</body>
+</html>
