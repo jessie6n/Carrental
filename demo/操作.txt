@@ -1,0 +1,4 @@
+1.匯入SQL
+2.打開cmd
+3.進入到jar檔所在的資料夾
+4.java -jar demo-0.0.1-SNAPSHOT.jar
