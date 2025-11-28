@@ -18,35 +18,27 @@ USE `carrental`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `car`
+-- Table structure for table `holidays`
 --
 
-DROP TABLE IF EXISTS `car`;
+DROP TABLE IF EXISTS `holidays`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `car` (
+CREATE TABLE `holidays` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `seats` int NOT NULL,
-  `doors` int NOT NULL,
-  `luggage` int NOT NULL,
-  `cc` int NOT NULL,
-  `fuel` varchar(255) DEFAULT NULL,
-  `price` int NOT NULL,
-  `image_path` varchar(255) DEFAULT NULL,
-  `mileage_fee` double DEFAULT NULL,
+  `date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `car`
+-- Dumping data for table `holidays`
 --
 
-LOCK TABLES `car` WRITE;
-/*!40000 ALTER TABLE `car` DISABLE KEYS */;
-INSERT INTO `car` VALUES (1,'Toyota Yaris 經濟款',5,5,2,1500,'95無鉛',1500,'/images/yaris.png',2.9),(2,'Toyota Altis 旗艦款',7,4,3,1800,'95無鉛',1700,'/images/altis.png',3.5),(3,'Toyota RAV4 休旅車',8,5,4,2000,'95無鉛',1800,'/images/rav4.png',4.2),(8,'Toyota Vios 或同級',5,4,2,1500,'95無鉛',1200,'/images/ToYoTa.jpeg',2.5),(9,'Honda Civic 或同級',5,4,3,1800,'95無鉛',1800,'/images/Honda.jpeg',3),(10,'Toyota RAV4 或同級',5,5,4,2000,'95無鉛',2400,'/images/Toyota RAV4.jpeg',3.5),(11,'Volkswagen T6 九人座',9,5,5,2000,'柴油',3200,'/images/Volkswagen T6.jpeg',4.5);
-/*!40000 ALTER TABLE `car` ENABLE KEYS */;
+LOCK TABLES `holidays` WRITE;
+/*!40000 ALTER TABLE `holidays` DISABLE KEYS */;
+INSERT INTO `holidays` VALUES (1,'2025-12-25'),(2,'2026-01-01'),(3,'2026-02-16'),(4,'2026-02-17'),(5,'2026-02-18'),(6,'2026-02-19'),(7,'2025-02-20'),(8,'2026-04-03'),(9,'2026-06-19');
+/*!40000 ALTER TABLE `holidays` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -58,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-28 16:46:27
+-- Dump completed on 2025-11-28 16:46:28
